@@ -58,6 +58,6 @@ def upload_file():
 
             os.remove(file_path)
 
-            return render_template('index.html', message='File uploaded successfully!', filename=f"<center>\n<img src=https://drive.google.com/uc?id={file_id} /><br>\n</center>")
+            return render_template('index.html', message='File uploaded successfully!', full_script=f"<center>\n<img src=https://drive.google.com/uc?id={file_id} /><br>\n</center>", filename=uploaded_file.filename)
 
     return render_template('index.html', message='File uploaded Failed')
