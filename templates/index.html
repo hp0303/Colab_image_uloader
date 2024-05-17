@@ -3,19 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+        :root {
+          --main-color: rgb(100, 115, 230);
+          --color-light: rgb(145, 150, 255);
+          --color-super-light: rgb(245, 245, 255);
+          --color-low-opacity: rgba(145, 155, 235, 0.75);
+          --color-super-low-opacity: rgba(200, 200, 230, 0.75);
+        }
+        body {
+            margin: 0;
+        }
+        * {
+          box-sizing: border-box;
+          font-family: "Inter", sans-serif;
+        }
+        main {
+            margin: 2rem auto;
+            padding: 0 1rem;
+            min-height: calc(100vh - 4rem);
+            width: min(100%, 45rem);
+        }
+        form {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        label {
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: var(--main-color);
+            border: 1px solid var(--main-color);
+            box-shadow: 3px 3px var(--color-low-opacity);
+            transition: all 0.25s ease-in-out;
+            padding: 0.6rem 0.7rem;
+            border-radius: 0.5rem;
+        }
+        label:hover,
+        label:active {
+          box-shadow: 0 0 0.5rem var(--color-low-opacity);
+          background-color: var(--color-super-light);
+          border-color: var(--color-light);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+        input[type="submit"] {
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid var(--main-color);
+            box-shadow: 3px 3px var(--color-low-opacity);
+            transition: all 0.25s ease-in-out;
+            padding: 0.6rem 1rem;
+            border-radius: 0.5rem;
+            color: white;
+            background-color: var(--main-color);
+        }
+        input[type="submit"]:hover,
+        input[type="submit"]:active {
+          box-shadow: 0 0 0.5rem var(--color-low-opacity);
+          background-color: var(--color-light);
+          border-color: var(--color-light);
+        }
+        .logo {
+            width: 1.5rem;
+            height: 2rem;
+        }
+        .contrl {
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            gap: .25rem;
+            align-items: center;
+        }
+        .image img {
+            transition: all .25s ease-in-out;
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+        .image {
+            padding: .25rem;
+            border-radius: .25rem;
+            margin: 0.25rem;
+            transition: all .25s ease-in-out;
+            width: 2rem;
+            height: 2rem;
+        }
+        .image:hover {
+            background: rgb(235,235,235);
+        }
+        pre {
+            border-radius: 1rem;
+            background: black;
+            border: 1px solid #ddd;
+            border-left: .5rem solid #f36d33;
+            color: white;
+            font-family: monospace;
+            line-height: 1.6;
+            margin-bottom: 1.6em;
+            max-width: 100%;
+            padding: 1em 1.5em;
+            display: block;
+        }
+        footer {
+          width: 100%;
+          padding: 1.5rem;
+          color: white;
+          background-color: rgb(75, 75, 75);
+        }
+        footer * {
+            margin: 0;
+        }
+        footer p {
+            font-size: 0.75rem;
+            color: rgb(175, 175, 175);
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        .control {
+          margin: auto;
+          width: min(100%, 60rem);
+          display: grid;
+          grid-gap: 1rem;
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+        .control div {
+            font-size: 0.9rem;
+            color: rgb(200, 200, 200);
+            display: flex;
+            flex-direction: column;
+        }
+        .control div :first-child {
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+    <script>
+        function copy() {
+          const copyText = document.querySelector("#code");
+          navigator.clipboard.writeText(copyText.textContent);
+          alert("복사 완료");
+        }
+    </script>
     <title>File Upload</title>
 </head>
 <body>
-    <h1>파일 업로드</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" id="file">
-        <input type="submit" value="Upload">
-    </form>
-    {% if message %}
-        <p>{{ message }}</p>
-    {% endif %}
-    {% if filename %}
-        <p>Uploaded Filename: {{ filename }}</p>
-    {% endif %}
+    <main>
+        <h1><img class="logo" src="https://dcimg8.dcinside.co.kr/viewimage.php?id=39b4d723f7c107a86ba8&no=24b0d769e1d32ca73de983fa11d02831c6c0b61130e4349ff064c41af1dccfaecbee0d5f1d4006c5d7bb7afa9a526a98c96857112086bdaa77de75a43c79ba9103185f37c9" alt="W3"> 코랩 사진 업로드</h1>
+        <p>1. 파일 찾기 버튼 누르고 파일 선택(선택된 파일이 보이지 않아도 선택된 겁니다)</p>
+        <p>2. 업로드 버튼 누르기(시간이 좀 걸릴 수 있습니다)</p>
+        <p>3. 아래에 뜨는 코드 복사</p>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="file">파일 찾기</label>
+            <span>{{ filename }}</span>
+            <input type="file" accept=".jpg, .jpeg, .png" name="file" id="file">
+            <input type="submit" value="업로드">
+        </form>
+        {% if full_script %}
+            <div class="cod">
+                <div class="contrl" onclick="copy()">
+                    <span>복사</span>
+                    <div class="image">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1827/1827938.png" />
+                    </div>
+                </div>
+                <pre id="code">{{ full_script }}</pre>
+            </div>
+        {% endif %}
+    </main>
+    <footer>
+        <div class="control">
+            <div>
+                <span>Contact</span>
+                <span>1508 박시진</span>
+                <span>+82 10 3314 6432</span>
+                <span>sijinpark77@gmail.com</span>
+            </div>
+            <div>
+                <span>Contact</span>
+                <span>1510 박현</span>
+                <span>+82 </span>
+            </div>
+            <div>
+                <span>About</span>
+                <span>
+                   경기북 최고의 동아리 SADA
+                </span>
+            </div>
+        </div>
+        <p>Copyright 2024. All rights reserved by Sijin Park And Hyun Park.</p>
+    </footer>
 </body>
 </html>
