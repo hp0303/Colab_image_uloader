@@ -19,6 +19,11 @@
           box-sizing: border-box;
           font-family: "Inter", sans-serif;
         }
+        h1 {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
         main {
             margin: 2rem auto;
             padding: 0 1rem;
@@ -47,9 +52,11 @@
           background-color: var(--color-super-light);
           border-color: var(--color-light);
         }
-
-        input[type="file"] {
-            display: none;
+        .control-script {
+          border: 1px solid #e5e5e5;
+        }
+        input[type=file] {
+          display: none
         }
         input[type="submit"] {
             font-size: 0.9rem;
@@ -72,7 +79,8 @@
             width: 1.5rem;
             height: 2rem;
         }
-        .contrl {
+        .control-script {
+            border: none;
             cursor: pointer;
             width: 100%;
             display: flex;
@@ -100,7 +108,7 @@
             border-radius: 1rem;
             background: black;
             border: 1px solid #ddd;
-            border-left: .5rem solid #f36d33;
+            border-left: .5rem solid var(--main-color);
             color: white;
             font-family: monospace;
             line-height: 1.6;
@@ -155,19 +163,22 @@
 </head>
 <body>
     <main>
-        <h1><img class="logo" src="https://dcimg8.dcinside.co.kr/viewimage.php?id=39b4d723f7c107a86ba8&no=24b0d769e1d32ca73de983fa11d02831c6c0b61130e4349ff064c41af1dccfaecbee0d5f1d4006c5d7bb7afa9a526a98c96857112086bdaa77de75a43c79ba9103185f37c9" alt="W3"> 코랩 사진 업로드</h1>
-        <p>1. 파일 찾기 버튼 누르고 파일 선택(선택된 파일이 보이지 않아도 선택된 겁니다)</p>
+        <h1>
+            <img class="logo" src="https://postfiles.pstatic.net/MjAyNDA1MjBfNjcg/MDAxNzE2MTkwNzcwNjI3.iCy32MTeiH2h3II0h1ok7rJ-FWSTN1sRQXXV7AgBVk0g.betTOhe0DpAFnW4DGFN7JafuLZuPobuPYta-LoveELAg.PNG/KakaoTalk_Photo_2024-05-16-22-26-09.png?type=w966" alt="W3">
+            <span>코랩 사진 업로드</span>
+        </h1>
+        <p>1. 파일 찾기 버튼 누르고 파일 선택</p>
         <p>2. 업로드 버튼 누르기(시간이 좀 걸릴 수 있습니다)</p>
         <p>3. 아래에 뜨는 코드 복사</p>
         <form action="/upload" method="post" enctype="multipart/form-data">
-            <label for="file">파일 찾기</label>
-            <span>{{ filename }}</span>
+            <label for="file">파일 열기</label>
             <input type="file" accept=".jpg, .jpeg, .png" name="file" id="file">
+            <span id="file-upload"></span>
             <input type="submit" value="업로드">
         </form>
         {% if full_script %}
             <div class="cod">
-                <div class="contrl" onclick="copy()">
+                <div class="control-script" onclick="copy()">
                     <span>복사</span>
                     <div class="image">
                         <img src="https://cdn-icons-png.flaticon.com/512/1827/1827938.png" />
@@ -180,15 +191,15 @@
     <footer>
         <div class="control">
             <div>
-                <span>Contact</span>
+                <span>Front End</span>
                 <span>1508 박시진</span>
                 <span>+82 10 3314 6432</span>
                 <span>gbs.s240088@ggh.goe.go.kr</span>
             </div>
             <div>
-                <span>Contact</span>
+                <span>Back End</span>
                 <span>1510 박현</span>
-                <span>+82 9320 4044</span>
+                <span>+82 10 9320 4044</span>
                 <span>gbs.s240090@ggh.goe.go.kr</span>
             </div>
             <div>
@@ -198,7 +209,15 @@
                 </span>
             </div>
         </div>
-        <p>Copyright 2024. All rights reserved by Sijin Park And Hyun Park.</p>
+        <p>Copyright 2024. All rights reserved by Sijin Park And Hyun Park of SADA.</p>
     </footer>
+    <script>
+        const input = document.querySelector("#file");
+        input.addEventListener("change", (event) => {
+            console.log(event.target.value.split(""));
+            const span = document.querySelector('#file-upload');
+            span.innerHTML = event.target.value;
+        })
+    </script>
 </body>
 </html>
